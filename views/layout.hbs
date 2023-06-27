@@ -1,18 +1,24 @@
-<html lang="en">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dog Grooming Appointment Scheduler</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link href="https://unpkg.com/@fullcalendar/core@4.4.2/main.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/@fullcalendar/daygrid@4.4.2/main.min.css" rel="stylesheet" />
+</head>
+<body>
+  {{>navbar}}
+    <div class="container">
+        {{{body}}}
+    </div>
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{appTitle}}</title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-  </head>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">&copy; 2023 Dog Grooming Scheduler</span>
+        </div>
+    </footer>
 
-  <body>
-
-    {{{body}}}
-
-    <script src="/js/script.js"></script>
-  </body>
-
+<script src="https://unpkg.com/@fullcalendar/core@4.4.2/main.min.js"></script>
+<script src="https://unpkg.com/@fullcalendar/daygrid@4.4.2/main.min.js"></script>
+</body>
 </html>
