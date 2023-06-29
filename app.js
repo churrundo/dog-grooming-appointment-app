@@ -21,6 +21,19 @@ const projectName = "dog-grooming-appointment-app";
 app.locals.appTitle = `${capitalize(projectName)} created with IronLauncher`;
 
 // 👇 Start handling routes here
+const session = require(`express-session`);
+const MongoStore = require(`connect-mongo`);
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 }, // Sessions last for 1 minute (for demo purposes)
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI || "mongodb://localhost/dog-grooming-appointment-app",
+        ttl: 24 * 60 * 60 // Time to live - session will stay active for 1 day
+    })
+}));
 
 const eventsRoutes = require("./routes/api/events.routes");
 app.use("/api/events", eventsRoutes);

@@ -1,32 +1,37 @@
-const { Schema, model } = require("mongoose");
-
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
-const userSchema = new Schema(
-  {
-    username: {
-      type: String,
-      required: false,
-      unique: true,
-      trim: true,
-    },
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const bcrypt = require('bcryptjs');
+
+const userSchema = new Schema({
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     email: {
       type: String,
       required: true,
       unique: true,
-      trim: true,
-      lowercase: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-  },
-  {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
-    timestamps: true,
-  }
-);
+      match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/}
+});
 
-const User = model("User", userSchema);
+userSchema.pre('save', function (next) {
+    const user = this;
+    if (!user.isModified('password')) {
+        return next();
+    }
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) {
+            return next(err);
+        }
+        bcrypt.hash(user.password, salt, (err, hash) => {
+            if (err) {
+                return next(err);
+            }
+            user.password = hash;
+            next();
+        });
+    });
+});
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

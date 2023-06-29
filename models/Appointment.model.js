@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const eventSchema = new Schema({
+const appointmentSchema = new Schema({
     title: { type: String, required: true },
     petType: { type: String, required: true },
     petBreed:{type: String},
@@ -11,6 +11,6 @@ const eventSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
-const Event = mongoose.model('Event', eventSchema);
+const Appointment = mongoose.model('Appointment', appointmentSchema);
 
-module.exports = Event;
+module.exports = Appointment;
