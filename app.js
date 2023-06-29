@@ -21,6 +21,10 @@ const projectName = "dog-grooming-appointment-app";
 app.locals.appTitle = `${capitalize(projectName)} created with IronLauncher`;
 
 // 👇 Start handling routes here
+
+const eventsRoutes = require("./routes/api/events.routes");
+app.use("/api/events", eventsRoutes);
+
 const indexRoutes = require("./routes/index.routes");
 app.use("/", indexRoutes);
 
