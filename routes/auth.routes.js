@@ -23,7 +23,7 @@ router.get("/signup", isLoggedOut, (req, res) => {
 // POST /auth/signup
 router.post("/signup", isLoggedOut, (req, res) => {
   const {email, password } = req.body;
-
+  console.log(req.body)
   // Check that username, email, and password are provided
   if (email === "" || password === "") {
     res.status(400).render("auth/signup", {
@@ -61,7 +61,10 @@ router.post("/signup", isLoggedOut, (req, res) => {
     .then((salt) => bcrypt.hash(password, salt))
     .then((hashedPassword) => {
       // Create a user and save it in the database
-      return User.create({email, password: hashedPassword });
+      User.create({email, password: hashedPassword })
+      .catch(err => {
+        console.log('Error saving user:', err);
+      });
     })
     .then((user) => {
       res.redirect("/auth/login");
@@ -88,6 +91,7 @@ router.get("/login", isLoggedOut, (req, res) => {
 // POST /auth/login
 router.post("/login", isLoggedOut, (req, res, next) => {
   const {email, password } = req.body;
+  console.log("Password from login form: ", password);
 
   // Check that email and password are provided
   if (email === "" || password === "") {
@@ -110,18 +114,21 @@ router.post("/login", isLoggedOut, (req, res, next) => {
   // Search the database for a user with the email submitted in the form
   User.findOne({ email })
     .then((user) => {
-      // If the user isn't found, send an error message that user provided wrong credentials
+      
+      // If the user isn't found,send an error message that user provided wrong credentials
       if (!user) {
         res
           .status(400)
           .render("auth/login", { errorMessage: "Wrong credentials." });        
         return;
       }
+      console.log("user fom DB: ",user)
 
       // If user is found based on the username, check if the in putted password matches the one saved in the database
       bcrypt
         .compare(password, user.password)
         .then((isSamePassword) => {
+          console.log(`Comparing '${password}' with '${user.password}': ${isSamePassword}`);
           if (!isSamePassword) {
             res
               .status(400)
