@@ -8,7 +8,9 @@ const userSchema = new Schema({
       type: String,
       required: true,
       unique: true,
-      match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/}
+      match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
+    },
+    isAdmin: {type: Boolean, default: false}
 });
 
 
