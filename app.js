@@ -4,13 +4,17 @@ const express = require("express");
 const hbs = require("hbs");
 const path = require("path");
 const app = express();
-const helpers = require("./helpers");
+const isAdmin = require('./middleware/isAdmin');
+const isUser = require('./middleware/isUser');
+const isLoggedIn = require('./middleware/isLoggedIn');
+const isLoggedOut = require('./middleware/isLoggedOut');
 
 // Handles the handlebars
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 app.engine("hbs", hbs.__express);
 hbs.registerPartials(path.join(__dirname, "views/partials"));
+
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
@@ -46,17 +50,14 @@ app.use((req, res, next) => {
   next();
 });
 
-const eventsRoutes = require("./routes/api/events.routes");
-app.use("/api/events", eventsRoutes);
-
 const indexRoutes = require("./routes/index.routes");
-app.use("/", indexRoutes);
+app.use("/", isUser, isAdmin, isLoggedIn, indexRoutes);
 
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
-const userRouter = require("./routes/user.routes");
-app.use("/user", userRouter);
+const userRoutes = require("./routes/user.routes");
+app.use("/user", userRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);

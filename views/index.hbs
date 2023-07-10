@@ -1,8 +1,21 @@
-<div class="row">
-    <div class="col-md-12">
-        <h1>Welcome to our Dog Grooming Scheduler!</h1>
-        <p>Schedule an appointment for your furry friend.</p>
-    </div>
-</div>
+<h1>Welcome to Dog Grooming Appointment Scheduler!</h1>
+
+{{#if isLoggedOut}}
+  <p>Explore our availability and <a href="/auth/login">log in</a> or <a href="/auth/signup">sign up</a> to book an appointment.</p>
+{{/if}}
+
+{{#if isLoggedIn}}
+  <h2>Welcome, {{currentUser.name}}!</h2>
+  {{#if isUser}}
+    <p>Ready to book an appointment? Click the button below:</p>
+    <a href="/calendar/book" class="btn btn-primary">Book an appointment</a>
+  {{/if}}
+  {{#if isAdmin}}
+    <p>You have admin privileges. Manage appointments using the options below:</p>
+    <!-- Place any admin-specific options here -->
+  {{/if}}
+  <p><a href="/auth/logout">Log out</a></p>
+{{/if}}
+
+<!-- Display the calendar to all visitors -->
 {{>calendar}}
-<script src='/js/calendar.js'></script>

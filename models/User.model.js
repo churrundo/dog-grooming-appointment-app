@@ -2,18 +2,36 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
-    password: { type: String, required: true },
+const userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      trim: true,
+      required: false,
+      unique: false,
+    },
     email: {
       type: String,
       required: true,
       unique: true,
-      match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
+      lowercase: true,
+      trim: true
     },
-    isAdmin: {type: Boolean, default: false}
-});
+    password: {
+      type: String,
+      required: true
+    },
+    role: {
+      type: String,
+      enum: ['User', 'Admin'],
+      default: 'User'
+    },
+  },
+  {
+    timestamps: true
+  }
+);
 
-
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
