@@ -1,10 +1,16 @@
+const User = require('../models/User.model')
+
 module.exports = (req, res, next) => {
-  // checks if the user is logged in when trying to access a specific page
-  if (!req.session.currentUser) {
-    req.app.locals.isLoggedIn = false;
+  if (req.session.currentUser) {
+    User.findById(req.session.currentUser._id)
+      .then((userFromDB) => {
+        req.user = userFromDB;
+        next();
+      })
+      .catch((error) => {
+        next(error);
+      });
   } else {
-    req.app.locals.isLoggedIn = true;
+    res.redirect("/login");
   }
-  console.log('isLoggedIn: ', req.app.locals.isLoggedIn);
-  next();
 };

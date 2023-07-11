@@ -51,13 +51,16 @@ app.use((req, res, next) => {
 });
 
 const indexRoutes = require("./routes/index.routes");
-app.use("/", isUser, isAdmin, isLoggedIn, indexRoutes);
+app.use("/", isUser, isAdmin, isLoggedIn, isLoggedOut, indexRoutes);
 
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
 const userRoutes = require("./routes/user.routes");
 app.use("/user", userRoutes);
+
+const ownerRoutes = require("./routes/owner.routes");
+app.use("/owners", ownerRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
