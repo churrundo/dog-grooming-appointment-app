@@ -1,16 +1,11 @@
-const User = require('../models/User.model')
+const User = require("../models/User.model");
 
 module.exports = (req, res, next) => {
-  if (req.session.currentUser) {
-    User.findById(req.session.currentUser._id)
-      .then((userFromDB) => {
-        req.user = userFromDB;
-        next();
-      })
-      .catch((error) => {
-        next(error);
-      });
+  if (!req.session.currentUser) {
+    req.app.locals.isLoggedIn = false;
   } else {
-    res.redirect("/login");
+    req.app.locals.isLoggedIn = true;
   }
+  console.log("isLoggedIn: ", req.app.locals.isLoggedIn);
+  next();
 };

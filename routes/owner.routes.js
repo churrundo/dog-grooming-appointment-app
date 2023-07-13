@@ -26,12 +26,16 @@ router.get('/:userId/detail', isLoggedIn, isUser, async (req, res, next) => {
     const calendarData = await Calendar.findOne({ userId })      
     .populate('userId')
     .populate({
-         path: 'days'
+         path: 'days',
+         populate: { 
+            path: 'appointments', 
+            model: 'Appointment'
+        }
     })
 
     console.log('calendarData:', calendarData)
     const calendar = createCalendar(calendarData)
-    res.render('owners/detail',  { rows: calendar.rows })
+    res.render('owners/detail',  { rows: calendar.rows, calendarId: calendarData && calendarData._id  })
 });
 
 router.get('/:adminId/calendar', isLoggedIn, isAdmin, async (req, res, next) => {

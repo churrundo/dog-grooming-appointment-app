@@ -5,8 +5,8 @@
    * @param {*} endHour 
    * @returns 
    */
-  function createCalendar(calendarData, startHour = 0, endHour = 24) {
-    const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
+  function generateCalendar(calendarData, startHour = 9, endHour = 18) {
+    const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
     const data = {
       rows: []
     };
@@ -16,30 +16,31 @@
      *   {
      *     name: 'Lunes',
      *     openTimeBlocks: [ 4, 5 ],
-     *     scheduledTimeBlocks: [ 5 ] 
+     *     appointments: [{ _id, scheduledTimeBlocks: [ 4] }] 
      *   },
       *   {
      *     name: 'Martes',
      *     openTimeBlocks: [ 4, 5 ],
-     *     scheduledTimeBlocks: [ 5 ] 
+     *     appointments: [ { _id, scheduledTimeBlocks: [ 4, 5 ] } ] 
      *   },
      * ]
      * 
      * cuando no esta vacia
      */
-  
-    console.log('calendarData: ', calendarData);
-  
-    //
     for (let i = startHour; i < endHour; i++) {
-      
       let cols = []
       for (let j = 0; j < weekDays.length; j++) {
-        const [dayOpenedOrScheduled] = calendarData ?
-        calendarData.days.filter(d => d.name === weekDays[j]) : []
-        console.log('dayOpenedOrScheduled: ', dayOpenedOrScheduled);
-        const isOpen = dayOpenedOrScheduled && dayOpenedOrScheduled.openTimeBlocks.includes(i)
-        const isBooked = dayOpenedOrScheduled && dayOpenedOrScheduled.scheduledTimeBlocks.includes(i)
+        const  day = calendarData && calendarData.days.filter(d => d.name === weekDays[j])
+        const [{ openTimeBlocks, appointments }] = (day && day.length > 0) ? day : [{ openTimeBlocks: [], appointments: [] } ]
+        const isOpen = openTimeBlocks && openTimeBlocks.includes(i)
+        console.log('day: ', day);
+         console.log('openTimeBlocks: ', openTimeBlocks);
+         console.log('isOpen: ', isOpen);
+        // we summarize all the appointments of the day, and
+        const isBooked = appointments && appointments.flatMap(a => a.scheduledTimeBlocks).includes(i)
+        //console.log('appointments: ', appointments);
+        //console.log('isBooked: ', isBooked);
+        
         cols.push({
           // revisamos si ya estaba abierto ese horario o si ya habia una reservacion 
           isOpen,
@@ -56,4 +57,4 @@
     return data;
   }
 
-  module.exports = createCalendar;
+  module.exports = generateCalendar;
