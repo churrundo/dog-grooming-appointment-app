@@ -12,4 +12,8 @@ router.get('/profile', async (req, res, next) => {
   }
 });
 
+router.get('/appointment-created', (req, res, next) => {
+  res.render('appointment-created')
+})
+
 module.exports = router;
