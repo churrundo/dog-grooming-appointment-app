@@ -1,0 +1,50 @@
+<div id="add-pet-form">
+  <h2>Tell us about your pet</h2>
+  <form action="/pet/add" method="POST">
+
+    <label>
+      Pet name
+      <input type="text" name="name" placeholder="Your furry friend's name" />
+    </label>
+
+    <label>
+      What species is it? We do cats and dogs.
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="petType"
+          id="petTypeDog"
+          value="dog"
+          checked
+        />
+        <label class="form-check-label" for="petTypeDog">
+          Dog
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="petType"
+          id="petTypeCat"
+          value="cat"
+        />
+        <label class="form-check-label" for="petTypeCat">
+          Cat
+        </label>
+      </div>
+    </label>
+
+    <label>
+      Breed
+      <input type="text" name="petBreed" placeholder="Do you know the breed?" />
+    </label>
+
+    <button type="submit">Save Pet</button>
+
+    {{#if errorMessage}}
+      <p class="error">{{errorMessage}}</p>
+    {{/if}}
+  </form>
+</div>

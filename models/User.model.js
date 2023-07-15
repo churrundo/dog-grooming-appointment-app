@@ -1,6 +1,7 @@
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Pet = require("./Pet.model.js");
 
 const userSchema = new Schema(
   {
@@ -15,20 +16,24 @@ const userSchema = new Schema(
       required: true,
       unique: true,
       lowercase: true,
-      trim: true
+      trim: true,
     },
     password: {
       type: String,
-      required: true
+      required: true,
     },
     role: {
       type: String,
-      enum: ['User', 'Admin'],
-      default: 'User'
+      enum: ["User", "Admin"],
+      default: "User",
     },
+    pets: [{ 
+      type: Schema.Types.ObjectId, 
+      ref: "Pet" 
+    }],
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

@@ -1,11 +1,12 @@
 <h1>Welcome to Dog Grooming Appointment Scheduler!</h1>
+<img src="/images/boney-dHIRbh9En6I-unsplash.jpg" alt="dog grooming services">
 
 {{#if isLoggedOut}}
   <p><a href="/auth/login">Log in</a> or <a href="/auth/signup">sign up</a> to book an appointment.</p>
 {{/if}}
 
 {{#if isLoggedIn}}
-  <h2>Welcome, {{currentUser.name}}!</h2>
+  <h2>Welcome, {{user.name}}!</h2>
   {{#if isUser}}
     <p>Ready to book an appointment? Click the button below:</p>
     <a href="/owners/list" class="btn btn-primary">Book an appointment</a>

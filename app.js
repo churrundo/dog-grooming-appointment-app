@@ -63,10 +63,13 @@ const ownerRoutes = require("./routes/owner.routes");
 app.use("/owners", ownerRoutes);
 
 const calendarRoutes = require('./routes/calendar.routes');
-app.use("/calendar", calendarRoutes);
+app.use("/calendar", isLoggedIn, isAdmin, calendarRoutes);
 
 const appointmentRoutes = require('./routes/appointment.routes');
 app.use('/appointment', appointmentRoutes);
+
+const petRoutes = require('./routes/pet.routes');
+app.use('/pet', isLoggedIn, isUser, petRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
