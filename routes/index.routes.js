@@ -1,15 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const isLoggedIn = require('../middleware/isLoggedIn');
+
+
 
 /* GET home page */
-router.get("/", (req, res, next) => {
-  /*const adminsList = User.find({ role: "Admin" });
-  const adminCalendars = adminsList.map((admin) => {
-    return Calendar.findOne({ userId: admin._id }).populate("userId").populate({
-      path: "days",
-    });
-  });*/
-  res.render("index");
+router.get("/", isLoggedIn, async (req, res, next) => {
+  console.log(req.session.currentUser);
+  const user = req.session.currentUser
+  res.render("index", { user });  
 });
 
 

@@ -51,7 +51,11 @@ const appointmentSchema = new Schema(
         dayId: {
             type: Schema.Types.ObjectId,
             ref: 'Day'
-        }
+        },
+        pet: {
+            type: Schema.Types.ObjectId,
+            ref: 'Pet'
+        },
     }
 )
 
