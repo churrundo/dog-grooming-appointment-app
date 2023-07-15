@@ -13,7 +13,11 @@ router.post('/create', async (req, res, next) => {
     const { _id: userId } = req.session.currentUser;
     // si el Admin ya tiene un calendario, lo traemos para actualizarlo
     const calendar = await Calendar.findOne({userId}).populate({
-        path: 'days'
+        path: 'days',
+        populate: { 
+            path: 'appointments', 
+            model: 'Appointment'
+        }
     });
     // we store the old opened time blocks of each day in oldDays
     const oldDays = calendar.days
