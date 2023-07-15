@@ -25,10 +25,10 @@ router.post("/signup", isLoggedOut, (req, res) => {
   const {email, password } = req.body;
   console.log(req.body)
   // Check that username, email, and password are provided
-  if (email === "" || password === "") {
+  if (email === "" || password === ""|| name === "") {
     res.status(400).render("auth/signup", {
       errorMessage:
-        "All fields are mandatory. Please provide your username, email and password.",
+        "All fields are mandatory. Please provide your name, email and password.",
     });
 
     return;
@@ -75,7 +75,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
       } else if (error.code === 11000) {
         res.status(500).render("auth/signup", {
           errorMessage:
-            "Username and email need to be unique. Provide a valid username or email.",
+            "The e-mail you provided is already in use.",
         });
       } else {
         next(error);
