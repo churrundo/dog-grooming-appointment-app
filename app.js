@@ -63,7 +63,7 @@ const ownerRoutes = require("./routes/owner.routes");
 app.use("/owners", ownerRoutes);
 
 const calendarRoutes = require('./routes/calendar.routes');
-app.use("/calendar", calendarRoutes);
+app.use("/calendar", isLoggedIn, isAdmin, calendarRoutes);
 
 const appointmentRoutes = require('./routes/appointment.routes');
 app.use('/appointment', appointmentRoutes);
